@@ -1,5 +1,6 @@
 package net.optionfactory.byter;
 
+import java.nio.ByteOrder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -129,4 +130,11 @@ public class BitBufferTest {
         instance.getRelativeInt(16);
         Assert.assertEquals(2, bb.position());
     }
+
+    @Test
+    public void readsCorrectlyNegativeNumbers() {
+        final BitBuffer bb = BitBuffer.frombytes(new byte[]{(byte) 0x80});
+        Assert.assertEquals(-128, bb.getRelativeLong(8));
+    }
+
 }

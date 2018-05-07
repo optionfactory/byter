@@ -53,19 +53,25 @@ public class ByteBuffer {
 
     public int getRelativeInt(int bytes) {
         dbc.precondition(bytes <= 4, "bytes must be <= 4");
-        final Long result = doGetLong(bytes, byteOrder);
-        return result.intValue();
+        return doGetSignedLong(bytes, byteOrder).intValue();
     }
 
     public long getRelativeLong(int bytes) {
         dbc.precondition(bytes <= 8, "bytes must be <= 8");
-        return doGetLong(bytes, byteOrder);
+        return doGetSignedLong(bytes, byteOrder);
     }
 
     public UnsignedLong getRelativeULong(int bytes) {
         dbc.precondition(bytes <= 8, "bytes must be <= 8");
         final Long res = doGetLong(bytes, byteOrder);
         return UnsignedLong.valueOf(res);
+    }
+
+    private Long doGetSignedLong(int bytes, ByteOrder byteOrder) {
+        final Long result = doGetLong(bytes, byteOrder);
+        return (result >>> (bytes * 8 - 1)) == 1
+                ? -(~(result - 1) & ((1l << bytes * 8) - 1))
+                : result;
     }
 
     private Long doGetLong(int bytes, ByteOrder byteOrder) {
