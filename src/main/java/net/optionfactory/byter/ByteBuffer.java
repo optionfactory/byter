@@ -13,12 +13,6 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public class ByteBuffer {
 
-    public static byte[] getRelativeSlice(java.nio.ByteBuffer source, int bytes) {
-        final byte[] res = new byte[bytes];
-        source.get(res);
-        return res;
-    }
-
     public static ByteBuffer wrap(byte[] data) {
         return new ByteBuffer(java.nio.ByteBuffer.wrap(data), ByteOrder.LITTLE_ENDIAN);
     }
@@ -42,6 +36,15 @@ public class ByteBuffer {
     public byte[] getRelativeSlice(int bytes) {
         final byte[] res = new byte[bytes];
         inner.get(res);
+        return res;
+    }
+
+    public byte[] getAbsoluteSlice(int position, int bytes) {
+        final int beforeRead = inner.position();
+        inner.position(position);
+        final byte[] res = new byte[bytes];
+        inner.get(res);
+        inner.position(beforeRead);
         return res;
     }
 
