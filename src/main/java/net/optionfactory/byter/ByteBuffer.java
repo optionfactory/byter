@@ -13,6 +13,10 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public class ByteBuffer {
 
+    public static ByteBuffer wrap(byte datum) {
+        return new ByteBuffer(java.nio.ByteBuffer.wrap(new byte[]{datum}), ByteOrder.LITTLE_ENDIAN);
+    }
+
     public static ByteBuffer wrap(byte[] data) {
         return new ByteBuffer(java.nio.ByteBuffer.wrap(data), ByteOrder.LITTLE_ENDIAN);
     }
