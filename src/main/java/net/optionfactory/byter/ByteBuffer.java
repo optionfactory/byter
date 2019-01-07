@@ -55,7 +55,7 @@ public class ByteBuffer {
     public int getRelativeUInt(int bytes) {
         dbc.precondition(bytes <= 2, "bytes must be <= 2");
         final Long result = doGetLong(bytes, byteOrder);
-        return (int) Integer.toUnsignedLong(result.intValue());
+        return (int) Unsigner.IntegertoUnsignedLong(result.intValue());
     }
 
     public int getRelativeInt(int bytes) {
@@ -89,7 +89,7 @@ public class ByteBuffer {
         }
         long result = 0;
         for (int offset = 0; offset < bytes; offset++) {
-            result = (result << 8) + Byte.toUnsignedLong(data[offset]);
+            result = (result << 8) + Unsigner.BytetoUnsignedLong(data[offset]);
         }
         return result;
     }

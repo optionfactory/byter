@@ -53,7 +53,7 @@ public class BitBuffer {
         final Pair<State, Long> stateAndResult = doGetLong(state, bits);
         inner.position((int) (stateAndResult.first().bitPosition / 8));
         this.state = stateAndResult.first();
-        return (int) Integer.toUnsignedLong(stateAndResult.second().intValue());
+        return (int) Unsigner.IntegertoUnsignedLong(stateAndResult.second().intValue());
     }
 
     public int getRelativeUInt(int bits, ByteOrder byteOrder) {
@@ -61,7 +61,7 @@ public class BitBuffer {
         final Pair<State, Long> stateAndResult = doGetLong(state, bits);
         inner.position((int) (stateAndResult.first().bitPosition / 8));
         this.state = stateAndResult.first();
-        return (int) Integer.toUnsignedLong(stateAndResult.second().intValue());
+        return (int) Unsigner.IntegertoUnsignedLong(stateAndResult.second().intValue());
     }
 
     public boolean getRelativeBit() {
@@ -102,7 +102,7 @@ public class BitBuffer {
         dbc.precondition(bits <= 32, "bits must be <= 32");
         dbc.precondition(bits >= 1, "bits must be >= 1");
         final State absoluteState = new State(position);
-        return Integer.toUnsignedLong(doGetLong(absoluteState, bits).second().intValue());
+        return Unsigner.IntegertoUnsignedLong(doGetLong(absoluteState, bits).second().intValue());
     }
 
     public int getAbsoluteInt(int position, int bits) {
@@ -133,7 +133,7 @@ public class BitBuffer {
                 currentByte = inner.get((int) (position / 8));
             }
             final int bitsInByte = Math.min(8 - bitOffsetInByte, bits - offset);
-            final long partial = Byte.toUnsignedLong((byte) ((currentByte << bitOffsetInByte & 0xFF) >>> (8 - bitsInByte)));
+            final long partial = Unsigner.BytetoUnsignedLong((byte) ((currentByte << bitOffsetInByte & 0xFF) >>> (8 - bitsInByte)));
             bitOffsetInByte += bitsInByte;
             result = result << bitsInByte | partial;
             offset += bitsInByte;
