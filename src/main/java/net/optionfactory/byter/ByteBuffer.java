@@ -43,6 +43,10 @@ public class ByteBuffer {
         return res;
     }
 
+    public byte[] getTail() {
+        return getRelativeSlice(inner.remaining());
+    }
+
     public byte[] getAbsoluteSlice(int position, int bytes) {
         final int beforeRead = inner.position();
         inner.position(position);
